@@ -25,7 +25,7 @@ app.post("/session", (_, res) => {
 });
 
 app.get("/game", (req, res) => {
-  res.json(game.get(req.body.game_id, games)); // TODO: HANDLE ERRORS
+  res.json(game.get(parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
 });
 
 app.post("/search", (req, res) => {
@@ -37,9 +37,9 @@ app.post("/create", (req, res) => {
 });
 
 app.post("/start", (req, res) => {
-  res.json(start.post(req.body.game_id, games)); // TODO: HANDLE ERRORS
+  res.json(start.post(parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
 });
 
 app.post("/join", (req, res) => {
-  res.json(join.post(req.body.player_id, req.body.game_id, games)); // TODO: HANDLE ERRORS
+  res.json(join.post(req.body.player_id, parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
 });
