@@ -3,6 +3,7 @@ gameEndpoints = require("./game");
 searchEndpoints = require("./search");
 createEndpoints = require("./create");
 joinEndpoints = require("./join");
+moveEndpoints = require("./move");
 
 module.exports = {
   start: startEndpoints,
@@ -10,4 +11,5 @@ module.exports = {
   search: searchEndpoints,
   create: createEndpoints,
   join: joinEndpoints,
+  move: moveEndpoints,
 };

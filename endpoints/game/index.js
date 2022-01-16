@@ -1,5 +1,7 @@
-get = require("./get");
+post = require("./post");
+deleteGame = require("./delete");
 
 module.exports = {
-  get: get.getGame,
+  post: post.postGame,
+  delete: deleteGame.deleteGame,
 };

@@ -16,7 +16,7 @@ app.listen(PORT, () => {
 });
 
 helperFunctions = require("./helperFunctions");
-const { game, search, create, start, join } = require("./endpoints");
+const { game, search, create, start, join, move } = require("./endpoints");
 
 let games = [];
 
@@ -24,8 +24,12 @@ app.post("/session", (_, res) => {
   res.json({ player_id: uuid.v4() });
 });
 
-app.get("/game", (req, res) => {
-  res.json(game.get(parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
+app.post("/game", (req, res) => {
+  res.json(game.post(req.body.player_id, parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
+});
+
+app.delete("/game", (req, res) => {
+  res.json(game.delete(req.body.player_id, parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
 });
 
 app.post("/search", (req, res) => {
@@ -37,9 +41,20 @@ app.post("/create", (req, res) => {
 });
 
 app.post("/start", (req, res) => {
-  res.json(start.post(parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
+  res.json(start.post(req.body.player_id, parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
 });
 
 app.post("/join", (req, res) => {
   res.json(join.post(req.body.player_id, parseInt(req.body.game_id), games)); // TODO: HANDLE ERRORS
+});
+
+app.post("/move", (req, res) => {
+  res.json(
+    move.post(
+      req.body.move,
+      req.body.player_id,
+      parseInt(req.body.game_id),
+      games
+    )
+  ); // TODO: HANDLE ERRORS
 });
