@@ -8,10 +8,10 @@ const postStart = (playerId, gameId, games) => {
       game.in_progress = true;
       game.moves_next = Object.keys(game.players)[0];
       game.result = null;
-      game.first_player_holes = constants.startingArrayOfStones(
+      game.state.first_player_holes = constants.startingArrayOfStones(
         game.number_of_stones
       );
-      game.second_player_holes = constants.startingArrayOfStones(
+      game.state.second_player_holes = constants.startingArrayOfStones(
         game.number_of_stones
       );
       return {

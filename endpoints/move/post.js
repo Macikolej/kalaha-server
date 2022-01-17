@@ -57,7 +57,9 @@ const postMove = (move, playerId, gameId, games) => {
             }
             game.in_progress = false;
           } else if (index === playerState.length) {
-            game.moves_next = playerId;
+            if (!helperFunctions.checkIfPlayerHasNoStones(playerState)) {
+              game.moves_next = playerId;
+            }
           }
         }
         index = 0;
