@@ -38,9 +38,7 @@ const postMove = (move, playerId, gameId, games) => {
           index++;
         }
         if (amountOfMoves === 0) {
-          if (index === playerState.length) {
-            game.moves_next = playerId;
-          } else if (helperFunctions.checkIfPlayerHasNoStones(enemyState)) {
+          if (helperFunctions.checkIfPlayerHasNoStones(enemyState)) {
             for (let i = 0; i < playerState.length - 1; i++) {
               playerState[playerState.length - 1] += playerState[i];
               playerState[i] = 0;
@@ -58,6 +56,8 @@ const postMove = (move, playerId, gameId, games) => {
                   : game.moves_next;
             }
             game.in_progress = false;
+          } else if (index === playerState.length) {
+            game.moves_next = playerId;
           }
         }
         index = 0;
