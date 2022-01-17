@@ -18,7 +18,7 @@ const postStart = (playerId, gameId, games) => {
         game: {
           ...game,
           state: {
-            player_holes: game.state.first_player_holes
+            player_holes: game.players[playerId].is_first_player
               ? game.state.first_player_holes
               : game.state.second_player_holes,
             enemy_holes: game.players[playerId].is_first_player
