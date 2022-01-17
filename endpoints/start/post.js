@@ -1,31 +1,32 @@
 helperFunctions = require("../../helperFunctions");
+constants = require("../../constants");
 
 const postStart = (playerId, gameId, games) => {
   if (gameId < games.length && games[gameId]) {
     let game = games[gameId];
     if (Object.keys(game.players).length === 2 && game.players[playerId]) {
       game.in_progress = true;
-      if (game.players[playerId] && game.players[playerId].is_first_player) {
-        return {
-          game: {
-            ...game,
-            state: {
-              player_holes: game.state.first_player_holes,
-              enemy_holes: game.state.second_player_holes,
-            },
+      game.moves_next = Object.keys(game.players)[0];
+      game.result = null;
+      game.first_player_holes = constants.startingArrayOfStones(
+        game.number_of_stones
+      );
+      game.second_player_holes = constants.startingArrayOfStones(
+        game.number_of_stones
+      );
+      return {
+        game: {
+          ...game,
+          state: {
+            player_holes: game.state.first_player_holes
+              ? game.state.first_player_holes
+              : game.state.second_player_holes,
+            enemy_holes: game.players[playerId].is_first_player
+              ? game.state.second_player_holes
+              : game.state.first_player_holes,
           },
-        };
-      } else if (game.players[playerId]) {
-        return {
-          game: {
-            ...game,
-            state: {
-              player_holes: game.state.second_player_holes,
-              enemy_holes: game.state.first_player_holes,
-            },
-          },
-        };
-      }
+        },
+      };
     }
   }
   return {};

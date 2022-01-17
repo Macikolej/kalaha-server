@@ -8,6 +8,7 @@ const postSearch = (playerId, games) => {
         game.players[playerId] = {
           player_id: playerId,
           is_first_player: false,
+          last_ping: new Date(),
         };
         return {
           game: {

@@ -1,7 +1,13 @@
 helperFunctions = require("../../helperFunctions");
+constants = require("../../constants");
 
-const postCreate = (playerId, games) => {
-  if (helperFunctions.checkIfPlayerIsInGame(playerId, games)) {
+const postCreate = (numberOfStones, playerId, games) => {
+  if (
+    helperFunctions.checkIfPlayerIsInGame(playerId, games) ||
+    isNaN(numberOfStones) ||
+    numberOfStones <= 0 ||
+    numberOfStones > 82
+  ) {
     return {};
   }
   let game = {
@@ -9,13 +15,16 @@ const postCreate = (playerId, games) => {
       [playerId]: {
         player_id: playerId,
         is_first_player: true,
+        last_ping: new Date(),
       },
     },
     state: {
-      first_player_holes: [6, 6, 6, 6, 6, 6, 0],
-      second_player_holes: [6, 6, 6, 6, 6, 6, 0],
+      first_player_holes: constants.startingArrayOfStones(numberOfStones),
+      second_player_holes: constants.startingArrayOfStones(numberOfStones),
     },
     game_id: games.length,
+    result: null,
+    number_of_stones: numberOfStones,
     moves_next: playerId,
     in_progress: false,
   };

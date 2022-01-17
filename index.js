@@ -20,6 +20,8 @@ const { game, search, create, start, join, move } = require("./endpoints");
 
 let games = [];
 
+setInterval(() => helperFunctions.kickUnresponsivePlayers(games), 10000);
+
 app.post("/session", (_, res) => {
   res.json({ player_id: uuid.v4() });
 });
@@ -37,7 +39,7 @@ app.post("/search", (req, res) => {
 });
 
 app.post("/create", (req, res) => {
-  res.json(create.post(req.body.player_id, games)); // TODO: HANDLE ERRORS
+  res.json(create.post(req.body.number_of_stones, req.body.player_id, games)); // TODO: HANDLE ERRORS
 });
 
 app.post("/start", (req, res) => {
