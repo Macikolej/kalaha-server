@@ -1,7 +1,7 @@
 helperFunctions = require("../../helperFunctions");
 constants = require("../../constants");
 
-const postCreate = (numberOfStones, playerId, games) => {
+const postCreate = (isBotGame, numberOfStones, playerId, games) => {
   if (
     helperFunctions.checkIfPlayerIsInGame(playerId, games) ||
     isNaN(numberOfStones) ||
@@ -27,7 +27,14 @@ const postCreate = (numberOfStones, playerId, games) => {
     number_of_stones: numberOfStones,
     moves_next: playerId,
     in_progress: false,
+    is_bot_game: isBotGame,
   };
+  if (isBotGame) {
+    game.players["bot"] = {
+      player_id: "bot",
+      is_first_player: false,
+    };
+  }
   games.push(game);
 
   return {

@@ -1,7 +1,12 @@
 helperFunctions = require("../../helperFunctions");
 
 const postJoin = (playerId, gameId, games) => {
-  if (gameId < games.length && games[gameId]) {
+  if (
+    !helperFunctions.checkIfPlayerIsInGame(playerId, games) &&
+    gameId < games.length &&
+    games[gameId] &&
+    !games[gameId].is_bot_game
+  ) {
     let game = games[gameId];
     if (Object.keys(game.players).length === 1) {
       game.players[playerId] = {

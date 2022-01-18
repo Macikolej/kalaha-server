@@ -13,62 +13,35 @@ const postMove = (move, playerId, gameId, games) => {
         ? game.state.second_player_holes
         : game.state.first_player_holes;
 
-      game.moves_next = isFirstPlayer
-        ? Object.keys(game.players)[1]
-        : Object.keys(game.players)[0];
+      if (playerState[move] !== 0) {
+        helperFunctions.processMove(
+          move,
+          playerId,
+          game,
+          playerState,
+          enemyState
+        );
 
-      let index = move + 1;
-      let amountOfMoves = playerState[move];
-      playerState[move] = 0;
-      while (amountOfMoves !== 0) {
-        while (index < playerState.length && amountOfMoves !== 0) {
-          amountOfMoves--;
-          if (
-            amountOfMoves === 0 &&
-            playerState[index] === 0 &&
-            index !== playerState.length - 1 &&
-            enemyState[enemyState.length - index - 2] !== 0
-          ) {
-            playerState[playerState.length - 1] +=
-              enemyState[enemyState.length - index - 2] + 1;
-            enemyState[enemyState.length - index - 2] = 0;
-          } else {
-            playerState[index] += 1;
-          }
-          index++;
+        if (game.moves_next === "bot" && !game.result) {
+          const stateOfBot = playerId === "bot" ? playerState : enemyState;
+          const stateOfPlayer = playerId === "bot" ? enemyState : playerState;
+
+          setTimeout(
+            () =>
+              postMove(
+                helperFunctions.decideBotMove(
+                  games[gameId],
+                  stateOfPlayer,
+                  stateOfBot,
+                  playerId
+                ),
+                "bot",
+                gameId,
+                games
+              ),
+            3000
+          );
         }
-        if (amountOfMoves === 0) {
-          if (helperFunctions.checkIfPlayerHasNoStones(enemyState)) {
-            for (let i = 0; i < playerState.length - 1; i++) {
-              playerState[playerState.length - 1] += playerState[i];
-              playerState[i] = 0;
-            }
-            if (
-              playerState[playerState.length - 1] ===
-              enemyState[enemyState.length - 1]
-            ) {
-              game.result = "draw";
-            } else {
-              game.result =
-                playerState[playerState.length - 1] >
-                enemyState[enemyState.length - 1]
-                  ? playerId
-                  : game.moves_next;
-            }
-            game.in_progress = false;
-          } else if (index === playerState.length) {
-            if (!helperFunctions.checkIfPlayerHasNoStones(playerState)) {
-              game.moves_next = playerId;
-            }
-          }
-        }
-        index = 0;
-        while (index < enemyState.length && amountOfMoves !== 0) {
-          enemyState[index] += 1;
-          index++;
-          amountOfMoves--;
-        }
-        index = 0;
       }
 
       return {

@@ -4,7 +4,7 @@ constants = require("../../constants");
 const postStart = (playerId, gameId, games) => {
   if (gameId < games.length && games[gameId]) {
     let game = games[gameId];
-    if (Object.keys(game.players).length === 2 && game.players[playerId]) {
+    if (game.players[playerId] && Object.keys(game.players).length === 2) {
       game.in_progress = true;
       game.moves_next = Object.keys(game.players)[0];
       game.result = null;

@@ -3,7 +3,11 @@ helperFunctions = require("../../helperFunctions");
 const postSearch = (playerId, games) => {
   if (!helperFunctions.checkIfPlayerIsInGame(playerId, games)) {
     for (let i = 0; i < games.length; i++) {
-      if (games[i] && Object.keys(games[i].players).length === 1) {
+      if (
+        games[i] &&
+        !games[i].is_bot_game &&
+        Object.keys(games[i].players).length === 1
+      ) {
         let game = games[i];
         game.players[playerId] = {
           player_id: playerId,

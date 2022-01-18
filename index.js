@@ -39,7 +39,14 @@ app.post("/search", (req, res) => {
 });
 
 app.post("/create", (req, res) => {
-  res.json(create.post(req.body.number_of_stones, req.body.player_id, games)); // TODO: HANDLE ERRORS
+  res.json(
+    create.post(
+      req.body.is_bot_game,
+      req.body.number_of_stones,
+      req.body.player_id,
+      games
+    )
+  ); // TODO: HANDLE ERRORS
 });
 
 app.post("/start", (req, res) => {
